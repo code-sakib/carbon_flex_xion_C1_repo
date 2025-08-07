@@ -4,8 +4,9 @@ import {
 } from "@burnt-labs/abstraxion-react-native";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Colors } from "../../constants/Colors";
 
-export default function Index() {
+export default function AuthScreen() {
   const {
     data: account,
     logout,
@@ -52,9 +53,7 @@ export default function Index() {
         "auto"
       );
 
-      if (!instantiateRes) {
-        throw new Error("Instantiate failed.");
-      }
+      if (!instantiateRes) throw new Error("Instantiate failed.");
 
       setTxHash(instantiateRes.transactionHash);
     } catch (error) {
@@ -82,7 +81,8 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Abstraxion React-Native Demo</Text>
+      <Text style={styles.title}>Authentication</Text>
+
       {isConnected ? (
         <>
           <TouchableOpacity
@@ -91,22 +91,25 @@ export default function Index() {
             disabled={loadingInstantiate}
           >
             <Text style={styles.buttonText}>
-              {loadingInstantiate ? "Loading..." : "Sample instantiate"}
+              {loadingInstantiate ? "Loading..." : "Sample Instantiate"}
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity onPress={handleSign} style={styles.button}>
             <Text style={styles.buttonText}>Sign Arb</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleLogout} style={styles.secondaryButton}>
+            <Text style={styles.secondaryButtonText}>Logout</Text>
+          </TouchableOpacity>
         </>
-      ) : null}
-      {isConnected ? (
-        <TouchableOpacity onPress={handleLogout} style={styles.button}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
       ) : (
         <TouchableOpacity
           onPress={login}
-          style={[styles.button, isConnecting && styles.disabledButton]}
+          style={[
+            styles.button,
+            isConnecting && styles.disabledButton
+          ]}
           disabled={isConnecting}
         >
           <Text style={styles.buttonText}>
@@ -114,14 +117,13 @@ export default function Index() {
           </Text>
         </TouchableOpacity>
       )}
-      {signArbResponse || txHash ? (
+
+      {(signArbResponse || txHash) && (
         <View style={styles.card}>
-          {signArbResponse ? (
-            <Text style={styles.responseText}>{signArbResponse}</Text>
-          ) : null}
-          {txHash ? <Text style={styles.responseText}>{txHash}</Text> : null}
+          {signArbResponse && <Text style={styles.responseText}>{signArbResponse}</Text>}
+          {txHash && <Text style={styles.responseText}>{txHash}</Text>}
         </View>
-      ) : null}
+      )}
     </View>
   );
 }
@@ -129,50 +131,70 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: Colors.lightGray,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    padding: 24,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#333",
+    fontSize: 28,
+    fontWeight: "700",
+    color: Colors.primary,
+    marginBottom: 32,
   },
   button: {
-    marginVertical: 10,
-    padding: 15,
-    borderRadius: 5,
-    backgroundColor: "#2196F3",
-    width: "80%",
+    backgroundColor: Colors.primary,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginVertical: 8,
+    width: "90%",
     alignItems: "center",
+    shadowColor: Colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  secondaryButton: {
+    backgroundColor: Colors.white,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginTop: 8,
+    width: "90%",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: Colors.primary,
   },
   buttonText: {
-    color: "#fff",
+    color: Colors.white,
     fontSize: 16,
+    fontWeight: "600",
+  },
+  secondaryButtonText: {
+    color: Colors.primary,
+    fontSize: 16,
+    fontWeight: "600",
   },
   card: {
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 20,
+    backgroundColor: Colors.white,
+    padding: 20,
+    borderRadius: 16,
+    marginTop: 24,
     width: "90%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowColor: Colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   responseText: {
-    color: "#000",
-    marginTop: 10,
-    fontSize: 16,
+    color: Colors.darkGray,
+    fontSize: 14,
+    marginBottom: 8,
   },
   disabledButton: {
-    backgroundColor: "#B0BEC5",
+    backgroundColor: Colors.gray,
   },
 });

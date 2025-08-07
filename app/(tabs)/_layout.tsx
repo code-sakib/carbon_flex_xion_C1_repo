@@ -26,20 +26,39 @@ export default function TabLayout() {
           default: {},
         }),
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      
+  {/* Auth - Left */}
+  <Tabs.Screen
+    name="index"
+    options={{
+      title: 'Auth',
+      tabBarIcon: ({ color }) => (
+        <IconSymbol size={28} name="lock.fill" color={color} />
+      ),
+    }}
+  />
+
+  {/* Home - Center */}
+  <Tabs.Screen
+    name="home_page"
+    options={{
+      title: 'Home',
+      tabBarIcon: ({ color }) => (
+        <IconSymbol size={28} name="house.fill" color={color} />
+      ),
+    }}
+  />
+
+  {/* Credits - Right */}
+  <Tabs.Screen
+    name="credits"
+    options={{
+      title: 'Credits',
+      tabBarIcon: ({ color }) => (
+        <IconSymbol size={28} name="creditcard.fill" color={color} />
+      ),
+    }}
+  />
+</Tabs>
   );
 }
